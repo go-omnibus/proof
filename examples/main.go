@@ -14,6 +14,8 @@ func main() {
 
 	p.Run()
 
+	defer proof.Sync()
+
 	proof.Info("info level test", proof.With("Trace", "123123123"))
 	proof.Debug("debug level test", proof.With("user_id", "123"))
 	proof.Warnf("asdass %s", "asd")

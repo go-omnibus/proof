@@ -35,6 +35,10 @@ func warnLevel() zap.LevelEnablerFunc {
 	}
 }
 
+func Sync() error {
+	return Logger.Z.Sync()
+}
+
 func Info(msg string, args ...zap.Field) {
 	Logger.Z.Info(msg, args...)
 }
@@ -78,12 +82,4 @@ func Debugf(format string, args ...interface{}) {
 func Fatalf(format string, args ...interface{}) {
 	logMsg := fmt.Sprintf(format, args...)
 	Logger.Z.Fatal(logMsg)
-}
-
-func With(k string, v interface{}) zap.Field {
-	return zap.Any(k, v)
-}
-
-func WithError(err error) zap.Field {
-	return zap.NamedError("error", err)
 }
