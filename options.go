@@ -66,6 +66,22 @@ func (o *Options) SetTimeUnit(t TimeUnit) {
 	o.TimeUnit = t
 }
 
+func (o *Options) SetMaxAge(a int) {
+	o.MaxAge = a
+}
+
+func (o *Options) SetMaxSize(size int) {
+	o.SetMaxSize(size)
+}
+
+func (o *Options) SetMaxBackups(n int) {
+	o.SetMaxBackups(n)
+}
+
+func (o *Options) SetCompress(b bool) {
+	o.Compress = b
+}
+
 func (o *Options) SetErrorFile(path string) {
 	o.LevelSeparate = true
 	o.ErrorFilename = path
@@ -180,7 +196,7 @@ func (o *Options) sizeDivisionWriter(filename string) io.Writer {
 		Filename:   filename,     // 日志文件路径
 		MaxSize:    o.MaxSize,    // 每个文件保存的最大尺寸 单位：MB
 		MaxBackups: o.MaxBackups, // 日志文件最多保存多少个备份
-		MaxAge:     o.MaxSize,    // 文件最多保存多少天
+		MaxAge:     o.MaxAge,     // 文件最多保存多少天
 		Compress:   o.Compress,   // 是否压缩
 	}
 	return hook
