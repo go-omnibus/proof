@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	Logger                   *Proof
+	Logger *Proof
+
 	encoderNameToConstructor = map[string]func(zapcore.EncoderConfig) zapcore.Encoder{
 		ConsoleEncoder: func(encoderConfig zapcore.EncoderConfig) zapcore.Encoder {
 			return zapcore.NewConsoleEncoder(encoderConfig)

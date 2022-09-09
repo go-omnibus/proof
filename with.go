@@ -6,7 +6,7 @@ func With(k string, v interface{}) zap.Field {
 	return zap.Any(k, v)
 }
 
-func WithByteString(k string, v []byte) zap.Field {
+func WithJSONByte(k string, v []byte) zap.Field {
 	return zap.ByteString(k, v)
 }
 
