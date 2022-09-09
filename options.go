@@ -175,16 +175,16 @@ func (o *Options) Run() *Proof {
 	development := zap.Development()
 	stackTrace := zap.AddStacktrace(zapcore.WarnLevel)
 
-	field := zap.Fields(
-		zap.String("serviceName", os.Getenv("project")),
-		zap.String("hostName", os.Getenv("HOSTNAME")),
-	)
+	//field := zap.Fields(
+	//	zap.String("serviceName", os.Getenv("project")),
+	//	zap.String("hostName", os.Getenv("HOSTNAME")),
+	//)
 
 	var logger *zap.Logger
 	if o.caller {
-		logger = zap.New(core, zap.AddCaller(), development, stackTrace, field)
+		logger = zap.New(core, zap.AddCaller(), development, stackTrace)
 	} else {
-		logger = zap.New(core, development, stackTrace, field)
+		logger = zap.New(core, development, stackTrace)
 	}
 
 	Logger = &Proof{Z: logger}
