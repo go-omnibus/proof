@@ -37,6 +37,7 @@ type Options struct {
 
 	closeDisplay int
 	caller       bool
+	capitalColor bool
 }
 
 func New() *Options {
@@ -78,6 +79,10 @@ func (o *Options) SetEncoding(encoding string) {
 	o.Encoding = encoding
 }
 
+func (o *Options) SetCapitalColor(b bool) {
+	o.capitalColor = b
+}
+
 // isOutput whether set output file
 func (o *Options) isOutput() bool {
 	return o.InfoFilename != ""
@@ -104,12 +109,17 @@ func (o *Options) Run() *Proof {
 		CallerKey:      "file",
 		MessageKey:     "msg",
 		StacktraceKey:  "stacktrace",
+		FunctionKey:    zapcore.OmitKey,
 		LineEnding:     zapcore.DefaultLineEnding,
 		EncodeLevel:    zapcore.LowercaseLevelEncoder,
 		EncodeTime:     zapcore.ISO8601TimeEncoder,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.FullCallerEncoder,
 		EncodeName:     zapcore.FullNameEncoder,
+	}
+
+	if o.capitalColor {
+		encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	}
 
 	if o.closeDisplay == 0 {
@@ -149,16 +159,16 @@ func (o *Options) Run() *Proof {
 	development := zap.Development()
 	stackTrace := zap.AddStacktrace(zapcore.WarnLevel)
 
-	filed := zap.Fields(
+	field := zap.Fields(
 		zap.String("serviceName", os.Getenv("project")),
 		zap.String("hostName", os.Getenv("HOSTNAME")),
 	)
 
 	var logger *zap.Logger
 	if o.caller {
-		logger = zap.New(core, zap.AddCaller(), development, stackTrace, filed)
+		logger = zap.New(core, zap.AddCaller(), development, stackTrace, field)
 	} else {
-		logger = zap.New(core, development, stackTrace, filed)
+		logger = zap.New(core, development, stackTrace, field)
 	}
 
 	Logger = &Proof{Z: logger}
