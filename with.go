@@ -17,6 +17,10 @@ func WithError(err error) zap.Field {
 	return zap.NamedError("error", err)
 }
 
+func WithStruct(v interface{}) zap.Field {
+	return zap.String("s", render.Render(v))
+}
+
 func Render(k string, v interface{}) zap.Field {
 	return zap.String(k, render.Render(v))
 }
